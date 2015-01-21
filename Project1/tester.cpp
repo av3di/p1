@@ -3,7 +3,7 @@
 ////////////////////////////////////////
 
 #include "tester.h"
-#define WINDOWTITLE	"Spinning Cube"
+#define WINDOWTITLE	"Parse Skel File"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -59,8 +59,14 @@ Tester::Tester(int argc,char **argv) {
 
 
 	// Initialize components
-
+	
 	Cam.SetAspect(float(WinX)/float(WinY));
+
+	if (argc <= 1)	                      // Skel file not specified
+		jack.load("test.skel");
+	else                                  // Skel file specified
+		jack.load(argv[1]);
+	jack.update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +81,8 @@ Tester::~Tester() {
 void Tester::Update() {
 	// Update the components in the world
 	Cam.Update();
-	Cube.Update();
+	//Cube.Update();
+	
 
 	// Tell glut to re-display the scene
 	glutSetWindow(WindowHandle);
@@ -88,7 +95,7 @@ void Tester::Reset() {
 	Cam.Reset();
 	Cam.SetAspect(float(WinX)/float(WinY));
 
-	Cube.Reset();
+	//Cube.Reset();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,8 +108,9 @@ void Tester::Draw() {
 
 	// Draw components
 	Cam.Draw();		// Sets up projection & viewing matrices
-	Cube.Draw();
-
+	//Cube.Draw();
+	jack.draw();
+	//getchar();
 	// Finish drawing scene
 	glFinish();
 	glutSwapBuffers();

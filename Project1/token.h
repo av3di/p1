@@ -28,6 +28,7 @@ public:
 	bool FindToken(const char *tok);
 	bool SkipWhitespace();
 	bool SkipLine();
+	bool isEnd();
 	bool Reset();
 
 	// Access functions

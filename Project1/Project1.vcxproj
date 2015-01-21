@@ -70,19 +70,32 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cube.cpp" />
+    <ClCompile Include="Dof.cpp" />
+    <ClCompile Include="Joint.cpp" />
     <ClCompile Include="matrix34.cpp" />
+    <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="tester.cpp" />
     <ClCompile Include="token.cpp" />
     <ClCompile Include="vector3.cpp" />
+    <ClCompile Include="Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="cube.h" />
+    <ClInclude Include="Dof.h" />
+    <ClInclude Include="Joint.h" />
     <ClInclude Include="matrix34.h" />
+    <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="tester.h" />
     <ClInclude Include="token.h" />
     <ClInclude Include="vector3.h" />
+    <ClInclude Include="Vector4.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.skel" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -164,6 +164,15 @@ bool Tokenizer::GetToken(char *str) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+bool Tokenizer::isEnd()
+{
+	if(feof((FILE*)File))
+		return true;
+	return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 bool Tokenizer::FindToken(const char *tok) {
 	int pos=0;
 	while(tok[pos]!='\0') {
