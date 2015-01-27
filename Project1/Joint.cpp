@@ -2,7 +2,7 @@
 // Joint.cpp
 ////////////////////////////////////////
 
-#include "Joint.h"
+#include "Header.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 Joint::Joint()
@@ -57,33 +57,35 @@ bool Joint::load(Tokenizer &token)
 			y = token.GetFloat();
 			z = token.GetFloat();
 			// If pose out of limits, then it clamps
-			getDofX().setPose(x);
-			getDofY().setPose(y);
-			getDofZ().setPose(z);
+			getDofX()->setPose(x);
+			getDofY()->setPose(y);
+			getDofZ()->setPose(z);
 		}
 		else if (strncmp(temp, "rotxlimit", 256) == 0)
 		{
 			rot_min = token.GetFloat();
 			rot_max = token.GetFloat();
-			getDofX().setMin(rot_min);
-			getDofX().setMax(rot_max);
+			getDofX()->setMin(rot_min);
+			getDofX()->setMax(rot_max);
 		}
 		else if (strncmp(temp, "rotylimit", 256) == 0)
 		{
 			rot_min = token.GetFloat();
 			rot_max = token.GetFloat();
-			getDofY().setMin(rot_min);
-			getDofY().setMax(rot_max);
+			getDofY()->setMin(rot_min);
+			getDofY()->setMax(rot_max);
 		}
 		else if (strncmp(temp, "rotzlimit", 256) == 0)
 		{
 			rot_min = token.GetFloat();
 			rot_max = token.GetFloat();
-			getDofZ().setMin(rot_min);
-			getDofZ().setMax(rot_max);
+			getDofZ()->setMin(rot_min);
+			getDofZ()->setMax(rot_max);
 		}
 		else if (strcmp(temp, "balljoint") == 0) {
 				Joint *jnt = new Joint();
+				token.GetToken(temp); // Get joint name
+				jnt->setName(temp);
 				jnt->load(token);
 				setChild(*jnt);
 		}
@@ -97,6 +99,11 @@ bool Joint::load(Tokenizer &token)
 void Joint::setName(char* new_name)
 {
 	strcpy(name, new_name);
+}
+
+char* Joint::getName()
+{
+	return name;
 }
 
 void Joint::setChild(Joint child)
@@ -145,18 +152,18 @@ Vector3 Joint::getDof()
 	return Vector3(dofx.getPose(), dofy.getPose(), dofz.getPose());
 }
 
-Dof& Joint::getDofX()
+Dof* Joint::getDofX()
 {
-	return dofx;
+	return &dofx;
 }
 
-Dof& Joint::getDofY()
+Dof* Joint::getDofY()
 {
-	return dofy;
+	return &dofy;
 }
-Dof& Joint::getDofZ()
+Dof* Joint::getDofZ()
 {
-	return dofz;
+	return &dofz;
 }
 
 
@@ -164,6 +171,7 @@ Dof& Joint::getDofZ()
 
 void Joint::update(Matrix34 &Wp)
 {
+	LocalMtx.Identity();
 	// Compute LocalMatrix
 	Matrix34 rotatex, rotatey, rotatez;
 	rotatex.MakeRotateX(dofx.getPose());

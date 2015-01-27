@@ -6,8 +6,7 @@
 #define SKELETON_H
 
 
-#include "Joint.h"
-#include "token.h"
+#include "Header.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -19,9 +18,12 @@ public:
 	void update();
 	void draw();
 
+	void init_all_joints(Joint* current);
+	std::vector<Joint*> all_joints;
+	Joint *root;
 private:
 	// Constants
-	Joint *root;
+
 	Matrix34 LocalMtx;
 };
 

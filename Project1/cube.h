@@ -5,9 +5,7 @@
 #ifndef CSE169_CUBE_H
 #define CSE169_CUBE_H
 
-#include "core.h"
-#include "vector3.h"
-#include "matrix34.h"
+#include "Header.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 

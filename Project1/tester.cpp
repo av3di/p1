@@ -2,12 +2,13 @@
 // tester.cpp
 ////////////////////////////////////////
 
-#include "tester.h"
-#define WINDOWTITLE	"Parse Skel File"
+#include "Header.h"
+#define WINDOWTITLE	"Attach Skin to Skeleton"
 
 ////////////////////////////////////////////////////////////////////////////////
 
 static Tester *TESTER;
+static int joint_index = 0;
 
 int main(int argc, char **argv) {
 	// To input command line args, go to properties -> debugging
@@ -67,6 +68,8 @@ Tester::Tester(int argc,char **argv) {
 	else                                  // Skel file specified
 		jack.load(argv[1]);
 	jack.update();
+	jack.init_all_joints(jack.root);
+	std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,12 +138,79 @@ void Tester::Resize(int x,int y) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Tester::Keyboard(int key,int x,int y) {
+	Joint* current_joint = jack.all_joints[joint_index];
 	switch(key) {
 		case 0x1b:		// Escape
 			Quit();
 			break;
 		case 'r':
 			Reset();
+			break;
+		case 'd':
+			jack.all_joints.clear(); // clear all previous joints from previous skeleton
+			jack.load("dragon.skel");
+			jack.update();
+			jack.init_all_joints(jack.root);
+			if (joint_index >= jack.all_joints.size())  // Make sure index is within range
+				joint_index = 0;
+			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+			break;
+		case 't':
+			jack.all_joints.clear();
+			jack.load("test.skel");
+			jack.update();
+			jack.init_all_joints(jack.root);
+			if (joint_index >= jack.all_joints.size())
+				joint_index = 0;
+			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+			break;
+		case 'w':
+			jack.all_joints.clear(); 
+			jack.load("wasp.skel");
+			jack.update();
+			jack.init_all_joints(jack.root);
+			if (joint_index >= jack.all_joints.size())
+				joint_index = 0;
+			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+			break;
+		case 'u':
+			jack.all_joints.clear();
+			jack.load("tube.skel");
+			jack.update();
+			jack.init_all_joints(jack.root);
+			if (joint_index >= jack.all_joints.size())
+				joint_index = 0;
+			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+			break;
+		case 'n':
+			joint_index++;
+			if (joint_index >= jack.all_joints.size())
+				joint_index = 0;
+			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+			break;
+		case 'X':
+			(current_joint->getDofX())->setPose(((current_joint->getDofX())->getPose()) + 0.1); // Add 0.01 to the current pose
+			jack.update();
+			break;
+		case 'x':
+			(current_joint->getDofX())->setPose(((current_joint->getDofX())->getPose()) - 0.1); // Subtract 0.01 to the current pose
+			jack.update();
+			break;
+		case 'Y':
+			(current_joint->getDofY())->setPose(((current_joint->getDofY())->getPose()) + 0.1); // Add 0.01 to the current pose
+			jack.update();
+			break;
+		case 'y':
+			(current_joint->getDofY())->setPose(((current_joint->getDofY())->getPose()) - 0.1); // Subtract 0.01 to the current pose
+			jack.update();
+			break;
+		case 'Z':
+			(current_joint->getDofZ())->setPose(((current_joint->getDofZ())->getPose()) + 0.1); // Add 0.01 to the current pose
+			jack.update();
+			break;
+		case 'z':
+			(current_joint->getDofZ())->setPose(((current_joint->getDofZ())->getPose()) - 0.1); // Subtract 0.01 to the current pose
+			jack.update();
 			break;
 	}
 }

@@ -5,11 +5,7 @@
 #ifndef CSE169_TESTER_H
 #define CSE169_TESTER_H
 
-#include "core.h"
-#include "camera.h"
-#include "cube.h"
-#include "token.h"
-#include "Skeleton.h"
+#include "Header.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 

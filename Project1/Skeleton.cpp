@@ -2,7 +2,7 @@
 // Skeleton.cpp
 ////////////////////////////////////////
 
-#include "Skeleton.h"
+#include "Header.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 Skeleton::Skeleton()
@@ -25,6 +25,9 @@ bool Skeleton::load(const char *file) {
 	
 	// Parse tree
 	root = new Joint();
+	char the_name[256];
+	token.GetToken(the_name);
+	root->setName(the_name);
 	root->load(token);
 	
 	//root->print();
@@ -45,4 +48,13 @@ void Skeleton::draw()
 	Matrix34 Wp;
 	Wp.Identity();
 	root->draw();
+}
+
+void Skeleton::init_all_joints(Joint* current)
+{
+	all_joints.push_back(current);
+	for (int i = 0; i < current->children.size(); i++)
+	{
+		init_all_joints(&(current->children[i]));
+	}
 }
