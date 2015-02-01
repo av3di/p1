@@ -11,7 +11,7 @@ static Tester *TESTER;
 static int joint_index = 0;
 Light blue(GL_LIGHT0, 90); // Set id and angle respectively
 Light red(GL_LIGHT1, 90);
-Material mat;
+
 int main(int argc, char **argv) {
 	// To input command line args, go to properties -> debugging
 	//std::cout << "you input " << argc << " arguments"<< std::endl;
@@ -58,19 +58,19 @@ Tester::Tester(int argc,char **argv) {
 	glLoadIdentity();
 
 	// Set the lights
-	blue.setColor(0.25, 0.25, 0.25, 1.0, 1.0, 1.0, 1.0);
-	blue.setPosition(-1.0, 1.0, -1.0, 0.0);
+	blue.setColor(0.15, 0.15, 0.25, 0.5, 0.5, 1.0, 1.0);
+	blue.setPosition(-2.0, 1.0, -1.0, 0.0);
 	blue.on();
 
-	red.setColor(0.7, 0.3, 0.3, 1.0, 0.5, 0.5, 1.0);
-	red.setPosition(0, 0, -7, 1);
-	//red.on();
-
+	red.setColor(0.25, 0.15, 0.15, 1.0, 0.5, 0.5, 1.0);
+	red.setPosition(2, 1.0, -1.0, 1);
+	red.on();
+	
 	// Set the material
-	mat.setDiffandAmb(0.1, 0.5, 0.8, 1.0);
+	mat.setDiffandAmb(0.25, 0.25, 0.25, 1.0);
 	mat.setSpec(1.0, 1.0, 1.0, 1.0, 5.0);
 	mat.on();
-
+	
 	// Callbacks
 	glutDisplayFunc( display );
 	glutIdleFunc( idle );
@@ -80,14 +80,12 @@ Tester::Tester(int argc,char **argv) {
 	glutPassiveMotionFunc( mousemotion );
 	glutReshapeFunc( resize );
 
-
-
 	// Initialize components
 	
 	Cam.SetAspect(float(WinX)/float(WinY));
 
 	if (argc <= 1)	                      // Skel file not specified
-		jack.load("test.skel");
+		jack.load("wasp.skel");
 	else                                  // Skel file specified
 		jack.load(argv[1]);
 
@@ -96,7 +94,11 @@ Tester::Tester(int argc,char **argv) {
 	jack.init_all_joints(jack.root);   // Create a list of all joints in this skeleton to easily traverse thru joints later
 	std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
 	
-	the_skin.load("tube_smooth.skin");  // Parse the skin file
+	if (argc <= 2)
+		the_skin.load("wasp.skin");  // Skin file not specified
+	else
+		the_skin.load(argv[2]);
+	the_skin.update(jack);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +143,7 @@ void Tester::Draw() {
 	Cam.Draw();		// Sets up projection & viewing matrices
 
 	//Cube.Draw();
-	//jack.draw();
+	jack.draw();
 	the_skin.draw();
 
 	// Finish drawing scene
@@ -177,38 +179,44 @@ void Tester::Keyboard(int key,int x,int y) {
 		case 'r':
 			Reset();
 			break;
-		case 'd':
-			jack.all_joints.clear(); // clear all previous joints from previous skeleton
-			jack.load("dragon.skel");
-			jack.update();
-			jack.init_all_joints(jack.root);
-			if (joint_index >= jack.all_joints.size())  // Make sure index is within range
-				joint_index = 0;
-			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
-			break;
-		case 't':
-			jack.all_joints.clear();
-			jack.load("test.skel");
-			jack.update();
-			jack.init_all_joints(jack.root);
-			if (joint_index >= jack.all_joints.size())
-				joint_index = 0;
-			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
-			break;
+		//case 'd':
+		//	jack.all_joints.clear(); // clear all previous joints from previous skeleton
+		//	jack.load("dragon.skel");
+		//	jack.update();
+		//	jack.init_all_joints(jack.root);
+		//	if (joint_index >= jack.all_joints.size())  // Make sure index is within range
+		//		joint_index = 0;
+		//	std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+		//	break;
+		//case 't':
+		//	jack.all_joints.clear();
+		//	jack.load("test.skel");
+		//	jack.update();
+		//	jack.init_all_joints(jack.root);
+		//	if (joint_index >= jack.all_joints.size())
+		//		joint_index = 0;
+		//	std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+		//	break;
 		case 'w':
-			jack.all_joints.clear(); 
+			jack.all_joints.clear();
+			the_skin.reset();
 			jack.load("wasp.skel");
 			jack.update();
 			jack.init_all_joints(jack.root);
+			the_skin.load("wasp.skin");
+			the_skin.update(jack);
 			if (joint_index >= jack.all_joints.size())
 				joint_index = 0;
 			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
 			break;
 		case 'u':
 			jack.all_joints.clear();
+			the_skin.reset();
 			jack.load("tube.skel");
 			jack.update();
 			jack.init_all_joints(jack.root);
+			the_skin.load("tube_smooth.skin");
+			the_skin.update(jack);
 			if (joint_index >= jack.all_joints.size())
 				joint_index = 0;
 			std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
@@ -222,26 +230,32 @@ void Tester::Keyboard(int key,int x,int y) {
 		case 'X':
 			(current_joint->getDofX())->setPose(((current_joint->getDofX())->getPose()) + 0.1); // Add 0.01 to the current pose
 			jack.update();
+			the_skin.update(jack);
 			break;
 		case 'x':
 			(current_joint->getDofX())->setPose(((current_joint->getDofX())->getPose()) - 0.1); // Subtract 0.01 to the current pose
 			jack.update();
+			the_skin.update(jack);
 			break;
 		case 'Y':
 			(current_joint->getDofY())->setPose(((current_joint->getDofY())->getPose()) + 0.1); // Add 0.01 to the current pose
 			jack.update();
+			the_skin.update(jack);
 			break;
 		case 'y':
 			(current_joint->getDofY())->setPose(((current_joint->getDofY())->getPose()) - 0.1); // Subtract 0.01 to the current pose
 			jack.update();
+			the_skin.update(jack);
 			break;
 		case 'Z':
 			(current_joint->getDofZ())->setPose(((current_joint->getDofZ())->getPose()) + 0.1); // Add 0.01 to the current pose
 			jack.update();
+			the_skin.update(jack);
 			break;
 		case 'z':
 			(current_joint->getDofZ())->setPose(((current_joint->getDofZ())->getPose()) - 0.1); // Subtract 0.01 to the current pose
 			jack.update();
+			the_skin.update(jack);
 			break;
 	}
 }

@@ -214,7 +214,7 @@ void Joint::drawBox(Vector3 boxMin, Vector3 boxMax)
 
 void Joint::print()
 {
-	//std::cout << "Joint: " << name << std::endl;
+	std::cout << "Joint: " << name << std::endl;
 	offset.Print("offset is ");
 	boxmin.Print("boxmin is ");
 	boxmax.Print("boxmax is ");

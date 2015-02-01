@@ -25,13 +25,15 @@
 #include "Light.h"
 #include "camera.h"
 #include "cube.h"
-#include "Skinweight.h"
+
 #include "Material.h"
 #include "token.h"
 #include "Dof.h"
 #include "Joint.h"
-#include "Skin.h"
 #include "Skeleton.h"
+#include "Skinweight.h"
+#include "Skin.h"
+
 #include "tester.h"
 
 

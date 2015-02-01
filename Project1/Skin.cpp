@@ -38,7 +38,8 @@ bool Skin::load(const char *file) {
 		x = token.GetFloat();
 		y = token.GetFloat();
 		z = token.GetFloat();
-		positions.push_back(Vector3(x, y, z));
+		o_positions.push_back(Vector3(x, y, z)); // Original positions must be stored for transformations
+		n_positions.push_back(Vector3(x, y, z)); // This will be modified, for update
 	}
 	token.FindToken("}");
 
@@ -51,7 +52,8 @@ bool Skin::load(const char *file) {
 		x = token.GetFloat();
 		y = token.GetFloat();
 		z = token.GetFloat();
-		normals.push_back(Vector3(x, y, z));
+		o_normals.push_back(Vector3(x, y, z));
+		n_normals.push_back(Vector3(x, y, z));
 	}
 	token.FindToken("}");
 
@@ -113,21 +115,56 @@ bool Skin::load(const char *file) {
 		temp_mat.d.Set(x, y, z); // fourth row
 
 		token.FindToken("}");
+		temp_mat.Inverse();
 		bindings.push_back(temp_mat);
 	}
 	token.FindToken("}");
-	for (int i = 0; i < bindings.size(); i++)
-		bindings[i].Print("bind matrix: ");
 
 	// Finish
 	token.Close();
 	return true;
 }
 
-void Skin::update()
+void Skin::update(Skeleton skellington)
 {
-	// Compute skinning matrix for each joint: M = W*B^-1
+	Vector3 vertex, normal, new_v, acc_p, acc_n;
+	int j_id = 0;
+	float j_weight = 0.0;
+	Matrix34 temp;
+	std::vector<Matrix34> M;  // W (joint world) * B^-1
+
+	// Compute skinning matrix for each joint: M = W*(B^-1)
+	for (int j = 0; j < skellington.all_joints.size(); j++)
+	{
+		temp.Dot((skellington.all_joints[j])->WorldMtx, bindings[j]); // M = W * B^-1
+		M.push_back(temp);
+	}
+
 	// Loop thru vertices and compute blended position and normal
+	for (int i = 0; i < o_positions.size(); i++)
+	{
+		vertex = o_positions[i];
+		normal = o_normals[i];
+		acc_n.Set(0, 0, 0);  // Reset accumulator variables
+		acc_p.Set(0, 0, 0);
+		for (int j = 0; j < skin_weights[i].weights.size(); j+=2)
+		{
+			j_id = skin_weights[i].weights[j]; // get joint id
+			j_weight = skin_weights[i].weights[j + 1]; // get weight for joint
+
+			M[j_id].Transform(vertex, new_v);				// new_v = M * v
+			new_v *= j_weight;               //  w (weight) * new_v
+			acc_p += new_v;
+
+			M[j_id].Transform3x3(normal, new_v);
+			new_v *= j_weight;               //  w (weight) * W * B^-1 * v
+			acc_n += new_v;
+		}
+		n_positions[i].Set(acc_p.x, acc_p.y, acc_p.z);
+		acc_n = acc_n.Normalize();
+		n_normals[i].Set(acc_n.x, acc_n.y, acc_n.z);
+	}
+
 }
 
 void Skin::draw()
@@ -138,28 +175,36 @@ void Skin::draw()
 	Vector3 tri_vec;
 	Vector3 pos_vec;
 	Vector3 nor_vec;
-	glShadeModel(GL_FLAT);
+	glShadeModel(GL_SMOOTH);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < triangles.size(); i++)
 	{
 		tri_vec = triangles[i];
-		nor_vec = normals[tri_vec.x];
-		pos_vec = positions[tri_vec.x];
-		nor_vec = nor_vec.Normalize();
+		nor_vec = n_normals[tri_vec.x];
+		pos_vec = n_positions[tri_vec.x];
 		glNormal3f(nor_vec.x, nor_vec.y, nor_vec.z);
 		glVertex3f(pos_vec.x, pos_vec.y, pos_vec.z);
 
-		nor_vec = normals[tri_vec.y];
-		pos_vec = positions[tri_vec.y];
-		nor_vec = nor_vec.Normalize();
+		nor_vec = n_normals[tri_vec.y];
+		pos_vec = n_positions[tri_vec.y];
 		glNormal3f(nor_vec.x, nor_vec.y, nor_vec.z);
 		glVertex3f(pos_vec.x, pos_vec.y, pos_vec.z);
 
-		nor_vec = normals[tri_vec.z];
-		pos_vec = positions[tri_vec.z];
-		nor_vec = nor_vec.Normalize();
+		nor_vec = n_normals[tri_vec.z];
+		pos_vec = n_positions[tri_vec.z];
 		glNormal3f(nor_vec.x, nor_vec.y, nor_vec.z);
 		glVertex3f(pos_vec.x, pos_vec.y, pos_vec.z);
 	}
 	glEnd();
+}
+
+void Skin::reset()
+{
+	o_positions.clear();
+	n_positions.clear();
+	o_normals.clear();
+	n_normals.clear();
+	triangles.clear();
+	skin_weights.clear();
+	bindings.clear();
 }

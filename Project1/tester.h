@@ -38,6 +38,7 @@ private:
 	// Components
 	Camera Cam;
 	SpinningCube Cube;
+	Material mat;
 	Skeleton jack;
 	Skin the_skin;
 };
