@@ -20,9 +20,11 @@
 #include "core.h"
 #include "vector3.h"
 #include "matrix34.h"
+
+#include "Light.h"
 #include "camera.h"
 #include "cube.h"
-#include "Light.h"
+
 #include "Material.h"
 #include "token.h"
 #include "Dof.h"

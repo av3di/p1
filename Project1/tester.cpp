@@ -9,7 +9,8 @@
 
 static Tester *TESTER;
 static int joint_index = 0;
-
+Light blue(GL_LIGHT0, 90); // Set id and angle respectively
+Light red(GL_LIGHT1, 90);
 int main(int argc, char **argv) {
 	// To input command line args, go to properties -> debugging
 	//std::cout << "you input " << argc << " arguments"<< std::endl;
@@ -48,6 +49,21 @@ Tester::Tester(int argc,char **argv) {
 	// Background color
 	glClearColor( 0., 0., 0., 1. );
 
+	// Lighting
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	blue.setColor(0.3, 0.3, 0.7, 0.5, 0.5, 1.0, 1.0);
+	blue.setPosition(0, 7, 7, 1);
+	blue.on();
+
+	red.setColor(0.7, 0.3, 0.3, 1.0, 0.5, 0.5, 1.0);
+	red.setPosition(0, 0, -7, 1);
+	//red.on();
+
 	// Callbacks
 	glutDisplayFunc( display );
 	glutIdleFunc( idle );
@@ -67,9 +83,13 @@ Tester::Tester(int argc,char **argv) {
 		jack.load("test.skel");
 	else                                  // Skel file specified
 		jack.load(argv[1]);
-	jack.update();
-	jack.init_all_joints(jack.root);
+
+	jack.update();  // Prepare the skeleton for rendering
+
+	jack.init_all_joints(jack.root);   // Create a list of all joints in this skeleton to easily traverse thru joints later
 	std::cout << "Joint chosen: " << jack.all_joints[joint_index]->getName() << std::endl;
+	
+	the_skin.load("tube_smooth.skin");  // Parse the skin file
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,9 +103,10 @@ Tester::~Tester() {
 
 void Tester::Update() {
 	// Update the components in the world
+	glMatrixMode(GL_MODELVIEW);
+
 	Cam.Update();
 	//Cube.Update();
-	
 
 	// Tell glut to re-display the scene
 	glutSetWindow(WindowHandle);
@@ -111,12 +132,15 @@ void Tester::Draw() {
 
 	// Draw components
 	Cam.Draw();		// Sets up projection & viewing matrices
+
 	//Cube.Draw();
-	jack.draw();
-	//getchar();
+	//jack.draw();
+	the_skin.draw();
+
 	// Finish drawing scene
 	glFinish();
 	glutSwapBuffers();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -87,7 +87,7 @@ int Tokenizer::GetInt() {
 	}
 	temp[pos++]=GetChar();
 
-	// Get integer potion
+	// Get integer position
 	while(isdigit(c=CheckChar())) temp[pos++]=GetChar();
 
 	// Finish

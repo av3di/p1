@@ -37,7 +37,7 @@ void Camera::Draw() {
 
 	// Set perspective projection
 	gluPerspective(FOV,Aspect,NearClip,FarClip);
-
+	
 	// Place camera
 	glTranslatef(0,0,-Distance);
 	glRotatef(Incline,1.0f,0.0f,0.0f);
