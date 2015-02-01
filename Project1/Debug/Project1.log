@@ -1,14 +1,44 @@
-﻿Build started 1/31/2015 3:34:09 AM.
+﻿Build started 1/31/2015 7:42:05 PM.
      1>Project "C:\Users\Evonee\Documents\CSE 169\p1\Project1\Project1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS- /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt tester.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS- /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Dof.cpp Joint.cpp Light.cpp Material.cpp Skeleton.cpp Skin.cpp Skinweight.cpp camera.cpp core.cpp cube.cpp matrix34.cpp tester.cpp token.cpp vector3.cpp
      1>cl : Command line warning D9025: overriding '/sdl' with '/GS-'
+         Skin.cpp
+     1>c:\users\evonee\documents\cse 169\p1\project1\skin.cpp(119): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\skin.cpp(143): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+         Compiling...
+         vector3.cpp
+         token.cpp
+     1>c:\users\evonee\documents\cse 169\p1\project1\token.cpp(12): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : see declaration of 'strcpy'
+     1>c:\users\evonee\documents\cse 169\p1\project1\token.cpp(27): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+     1>c:\users\evonee\documents\cse 169\p1\project1\token.cpp(33): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : see declaration of 'strcpy'
          tester.cpp
-     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(178): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(187): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(196): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(205): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(211): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(185): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(194): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(203): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(212): warning C4018: '>=' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\tester.cpp(218): warning C4018: '>=' : signed/unsigned mismatch
+         matrix34.cpp
+         cube.cpp
+         core.cpp
+         camera.cpp
+         Skinweight.cpp
+         Skeleton.cpp
+     1>c:\users\evonee\documents\cse 169\p1\project1\skeleton.cpp(56): warning C4018: '<' : signed/unsigned mismatch
+         Material.cpp
+         Light.cpp
+         Joint.cpp
+     1>c:\users\evonee\documents\cse 169\p1\project1\joint.cpp(101): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : see declaration of 'strcpy'
+     1>c:\users\evonee\documents\cse 169\p1\project1\joint.cpp(192): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\joint.cpp(205): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\evonee\documents\cse 169\p1\project1\joint.cpp(224): warning C4018: '<' : signed/unsigned mismatch
+         Dof.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Evonee\Documents\CSE 169\p1\Project1\Debug\Project1.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\glut\glut-3.7.6-bin" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Evonee\Documents\CSE 169\p1\Project1\Debug\Project1.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Evonee\Documents\CSE 169\p1\Project1\Debug\Project1.lib" /MACHINE:X86 Debug\camera.obj
          Debug\core.obj
@@ -20,6 +50,7 @@
          Debug\matrix34.obj
          Debug\Skeleton.obj
          Debug\Skin.obj
+         Debug\Skinweight.obj
          Debug\tester.obj
          Debug\token.obj
          Debug\vector3.obj
@@ -28,4 +59,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.28
+Time Elapsed 00:00:33.07

@@ -11,6 +11,7 @@ static Tester *TESTER;
 static int joint_index = 0;
 Light blue(GL_LIGHT0, 90); // Set id and angle respectively
 Light red(GL_LIGHT1, 90);
+Material mat;
 int main(int argc, char **argv) {
 	// To input command line args, go to properties -> debugging
 	//std::cout << "you input " << argc << " arguments"<< std::endl;
@@ -56,13 +57,19 @@ Tester::Tester(int argc,char **argv) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	blue.setColor(0.3, 0.3, 0.7, 0.5, 0.5, 1.0, 1.0);
-	blue.setPosition(0, 7, 7, 1);
+	// Set the lights
+	blue.setColor(0.25, 0.25, 0.25, 1.0, 1.0, 1.0, 1.0);
+	blue.setPosition(-1.0, 1.0, -1.0, 0.0);
 	blue.on();
 
 	red.setColor(0.7, 0.3, 0.3, 1.0, 0.5, 0.5, 1.0);
 	red.setPosition(0, 0, -7, 1);
 	//red.on();
+
+	// Set the material
+	mat.setDiffandAmb(0.1, 0.5, 0.8, 1.0);
+	mat.setSpec(1.0, 1.0, 1.0, 1.0, 5.0);
+	mat.on();
 
 	// Callbacks
 	glutDisplayFunc( display );

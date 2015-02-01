@@ -22,6 +22,8 @@ private:
 	std::vector<Vector3> positions;
 	std::vector<Vector3> normals;
 	std::vector<Vector3> triangles;
+	std::vector<Skinweight> skin_weights;
+	std::vector<Matrix34> bindings;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

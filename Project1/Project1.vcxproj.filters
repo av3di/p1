@@ -54,6 +54,9 @@
     <ClCompile Include="Skin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skinweight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Skin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skinweight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <string>
 #include <ctype.h>
 #include <iostream>
 
@@ -24,7 +25,7 @@
 #include "Light.h"
 #include "camera.h"
 #include "cube.h"
-
+#include "Skinweight.h"
 #include "Material.h"
 #include "token.h"
 #include "Dof.h"
