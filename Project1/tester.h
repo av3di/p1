@@ -14,6 +14,7 @@ public:
 	Tester(int argc,char **argv);
 	~Tester();
 
+	
 	void Update();
 	void Reset();
 	void Draw();
@@ -25,7 +26,7 @@ public:
 	void Keyboard(int key,int x,int y);
 	void MouseButton(int btn,int state,int x,int y);
 	void MouseMotion(int x,int y);
-
+	Shader the_shader;
 private:
 	// Window management
 	int WindowHandle;
@@ -41,6 +42,7 @@ private:
 	Material mat;
 	Skeleton jack;
 	Skin the_skin;
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////

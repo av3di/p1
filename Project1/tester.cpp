@@ -16,8 +16,12 @@ int main(int argc, char **argv) {
 	// To input command line args, go to properties -> debugging
 	//std::cout << "you input " << argc << " arguments"<< std::endl;
 	glutInit(&argc, argv);
+
+
+
 	TESTER = new Tester(argc,argv);
 	glutMainLoop();
+	glDeleteProgram(TESTER->the_shader.ps_id);
 	return 0;
 }
 
@@ -33,6 +37,7 @@ static void mousemotion(int x, int y)					{TESTER->MouseMotion(x,y);}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+
 Tester::Tester(int argc,char **argv) {
 	WinX=640;
 	WinY=480;
@@ -45,10 +50,22 @@ Tester::Tester(int argc,char **argv) {
 	glutInitWindowPosition( 0, 0 );
 	WindowHandle = glutCreateWindow( WINDOWTITLE );
 	glutSetWindowTitle( WINDOWTITLE );
-	glutSetWindow( WindowHandle );
+	glutSetWindow(WindowHandle);
+
+	// Add Choose & Select pixelformat code here
+
+	glewInit();
+	// Set up Shaders
+	char* vertexShaderSourceCode = the_shader.readFile("do_nothing.vsh");  //gaurd shader
+	char* fragmentShaderSourceCode = the_shader.readFile("simple_frag.fsh");
+	the_shader.makeVertexShader(vertexShaderSourceCode);
+	the_shader.makeFragmentShader(fragmentShaderSourceCode);
+	the_shader.makeShaderProgram();
+	
 
 	// Background color
 	glClearColor( 0., 0., 0., 1. );
+
 
 	// Lighting
 	glEnable(GL_DEPTH_TEST);
@@ -144,6 +161,8 @@ void Tester::Draw() {
 
 	//Cube.Draw();
 	jack.draw();
+	
+	glUseProgram(the_shader.ps_id);
 	the_skin.draw();
 
 	// Finish drawing scene

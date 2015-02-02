@@ -175,7 +175,7 @@ void Skin::draw()
 	Vector3 tri_vec;
 	Vector3 pos_vec;
 	Vector3 nor_vec;
-	glShadeModel(GL_SMOOTH);
+	//glShadeModel(GL_FLAT);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < triangles.size(); i++)
 	{

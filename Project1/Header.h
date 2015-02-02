@@ -12,16 +12,17 @@
 #include <string.h>
 #include <string>
 #include <ctype.h>
-#include <iostream>
-
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <iostream> 
+#include <GL\glew.h>
+//#include <GL/gl.h>
+//#include <GL/glu.h>
 #include <GL/glut.h>
 
 #include "core.h"
 #include "vector3.h"
 #include "matrix34.h"
 
+#include "Shader.h"
 #include "Light.h"
 #include "camera.h"
 #include "cube.h"
